@@ -4,7 +4,7 @@ import json
 import subprocess
 
 import pandas as pd
-import sqlite3
+from sqlalchemy import create_engine
 
 import config
 from rede_cnpj import RedeCNPJ
@@ -13,8 +13,7 @@ def consulta(tipo_consulta, objeto_consulta, qualificacoes, path_BD, nivel_max, 
              csv=False, colunas_csv=None, csv_sep=',', graphml=False, gexf=False, viz=False):
 
     try:
-        conBD = sqlite3.connect('file:/{}?mode=ro'.format(os.path.abspath(path_BD)), 
-                                uri=True)
+        conBD = create_engine('postgresql://car:car@localhost:5432/car')
 
         try:
             rede = RedeCNPJ(conBD, nivel_max=nivel_max, qualificacoes=qualificacoes)
@@ -73,7 +72,8 @@ def consulta(tipo_consulta, objeto_consulta, qualificacoes, path_BD, nivel_max, 
         except Exception as e:
             print('Um erro ocorreu:\n{}'.format(e))
         finally:
-            conBD.close()
+            #conBD.close()
+            pass
 
     except:
         print('Nao foi possivel encontrar ou conectar ao BD {}'.format(path_BD))

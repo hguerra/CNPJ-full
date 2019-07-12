@@ -188,8 +188,8 @@ def cnpj_full(input_list, tipo_output, output_path):
         os.makedirs(output_path)
 
     if tipo_output == 'sqlite':
-        import sqlite3
-        conBD = sqlite3.connect(os.path.join(output_path,NOME_ARQUIVO_SQLITE))
+        from sqlalchemy import create_engine
+        conBD = create_engine('postgresql://car:car@localhost:5432/car')
 
     # Itera sobre sequencia de arquivos (p/ suportar arquivo dividido pela RF)
     for i_arq, arquivo in enumerate(input_list):
@@ -313,7 +313,8 @@ def cnpj_full(input_list, tipo_output, output_path):
 
 
     if tipo_output == 'sqlite':
-        conBD.close()
+        #conBD.close()
+        pass
 
     # Imprime totais
     print('\nConversao concluida. Validando quantidades:')
@@ -356,11 +357,10 @@ OBS: Uso de índices altamente recomendado!
 
 
 def cnpj_index(output_path):
-    import sqlite3    
+    import psycopg2
+    conBD = psycopg2.connect(database="car", user="car", password="car", host="localhost", port="5432")
 
-    conBD = sqlite3.connect(os.path.join(output_path,NOME_ARQUIVO_SQLITE))
-
-    print(u'''
+    print(u'''''
 Criando índices...
 Essa operaçao pode levar vários minutos.
     ''')
@@ -377,6 +377,7 @@ Essa operaçao pode levar vários minutos.
 
     print(u'Indices criados com sucesso.')
 
+    conBD.commit()
     conBD.close()
 
 

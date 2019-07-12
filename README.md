@@ -69,6 +69,9 @@ O argumento opcional `--noindex`, aplicável somente para saída sqlite, indica 
 A criação de índices é muito recomendada e essencial para a funcionalidade de consultas.
 
 ## Exemplos
+
+`python3 cnpj.py "data" sqlite "data"`
+
 `python3 cnpj.py "data\F.K032001K.D90308" sqlite "data"`
 
 `python3 cnpj.py "data" sqlite "data" --dir --noindex`
